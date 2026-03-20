@@ -12,7 +12,10 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**")
 			.allowedOrigins(
 				"http://localhost:5173",
-				"http://localhost:4173"
+				"http://localhost:4173",
+				"https://*.netlify.app",
+				"https://mytodopwa.netlify.app",
+				"https://*.onrender.com"
 			)
 			.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
 			.allowedHeaders("*")
