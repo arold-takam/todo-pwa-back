@@ -47,3 +47,4 @@ application-local.yml
 .classpath
 .project
 .settings/target/
+target/
