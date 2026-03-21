@@ -19,18 +19,19 @@ public class UserBootstrap {
 //	-------------------------------------------------------------------------------------
 @PostConstruct
 public void initDefaultUser() {
+	log.info("=== UserBootstrap démarré ==="); // ← LOG TRÈS VISIBLE pour confirmer exécution
 	String defaultUsername = "defaultuser";
 	
 	try {
 		userService.findByUsername(defaultUsername);
 		log.info("Utilisateur par défaut '{}' existe déjà – skip", defaultUsername);
-	} catch (Exception e) { // ou ton exception spécifique (ex: UsernameNotFoundException)
+	} catch (Exception e) {
 		log.info("Création de l'utilisateur par défaut '{}'", defaultUsername);
 		
 		UserRequestDto dto = new UserRequestDto(
 			defaultUsername,
 			"default@example.com",
-			"default123" // ← change en prod ou utilise une var d'env
+			"default123"
 		);
 		
 		userService.save(dto);
