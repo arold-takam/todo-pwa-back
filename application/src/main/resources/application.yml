@@ -9,7 +9,7 @@ spring:
                 exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
         # CHOIX DU PROFIL-----------------------------------------------
         profiles:
-                active : prod
+                active : preprod
         #EVENT HANDLING-----------------------------------------------
         modulith:
                 events:

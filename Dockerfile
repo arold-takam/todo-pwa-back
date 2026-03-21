@@ -12,4 +12,4 @@ EXPOSE 8080
 
 # Commande de lancement
 # On force le profil 'preprod' pour utiliser PostgreSQL sur Render
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=preprod", "app.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "app.jar"]
