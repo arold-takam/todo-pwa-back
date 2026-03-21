@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @EnableAsync
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.app", "com.app.bootstrap"})
 public class TodoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TodoApplication.class, args);
