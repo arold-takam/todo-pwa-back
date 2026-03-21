@@ -46,4 +46,4 @@ application-local.yml
 *.iml
 .classpath
 .project
-.settings/
+.settings/target/
