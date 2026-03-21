@@ -1,4 +1,4 @@
-package com.app.user.internal.bootstrap;
+package com.app.bootstrap;
 
 import com.app.user.api.dto.UserRequestDto;
 import com.app.user.internal.service.UserService;
