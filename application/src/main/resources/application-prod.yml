@@ -3,8 +3,6 @@ server:
         port: ${PORT:8080}  # Render injecte PORT automatiquement
 
 spring:
-        profiles:
-                active: prod
         datasource:
                 url: ${SPRING_DATASOURCE_URL}           # Render injecte ça
                 username: ${SPRING_DATASOURCE_USERNAME}
