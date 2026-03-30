@@ -21,7 +21,7 @@ public class TaskEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "title", nullable = false, unique = true)
+	@Column(name = "title", nullable = false)
 	private String title;
 	
 	@Column(name = "details")
@@ -35,7 +35,7 @@ public class TaskEntity {
 	private LocalDate date;
 	
 	@Column(name = "time_due")
-	@JsonFormat(pattern = "HH:mm:[ss]")
+	@JsonFormat(pattern = "HH:mm:ss")
 	private LocalTime time;
 	
 	@Column(name = "user_id", nullable = false)
