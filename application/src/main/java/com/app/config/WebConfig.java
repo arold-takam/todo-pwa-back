@@ -13,6 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
 			.allowedOrigins(
 				"http://localhost:5173",
 				"http://localhost:4173",
+				"http://localhost:3000",
 				"https://*.netlify.app",
 				"https://mytodopwa.netlify.app",
 				"https://*.onrender.com"

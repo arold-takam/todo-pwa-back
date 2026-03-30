@@ -4,19 +4,14 @@ server:
                 context-path: /api/v1
 
 spring:
-        # --- AJOUT POUR IGNORER RABBITMQ AU DÉMARRAGE ---
         autoconfigure:
                 exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
-        # CHOIX DU PROFIL-----------------------------------------------
-        profiles:
-                active : prod
-        #EVENT HANDLING-----------------------------------------------
+        
         modulith:
                 events:
                         jdbc-schema-initialization: true
                 republish-outstanding-events-on-restart: true
 
-# --- DÉSACTIVER LE CHECK DE SANTÉ RABBIT ---
 management:
         health:
                 rabbit:
