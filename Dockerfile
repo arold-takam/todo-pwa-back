@@ -1,31 +1,41 @@
-# Dockerfile (racine backend)
-
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+# ─────────────────────────────────────────
+# Étape 1 : Build Maven
+# ─────────────────────────────────────────
+FROM maven:3.9-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /build
 
+# Copie du pom parent et des poms modules pour profiter du cache Maven
 COPY pom.xml .
 COPY common/pom.xml common/
 COPY module-user/pom.xml module-user/
 COPY module-task/pom.xml module-task/
 COPY application/pom.xml application/
 
+# Téléchargement des dépendances (cacheable)
 RUN mvn dependency:go-offline -B
 
-COPY common/ common/
-COPY module-user/ module-user/
-COPY module-task/ module-task/
-COPY application/ application/
+# Copie des sources
+COPY common/src common/src
+COPY module-user/src module-user/src
+COPY module-task/src module-task/src
+COPY application/src application/src
 
-RUN mvn clean package -DskipTests
+# Build sans tests (les tests seront lancés en CI)
+RUN mvn clean package -DskipTests -B
 
-FROM eclipse-temurin:21-jre-jammy
+# ─────────────────────────────────────────
+# Étape 2 : Image finale légère
+# ─────────────────────────────────────────
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
+# Copie du jar buildé
 COPY --from=builder /build/application/target/*.jar app.jar
 
+# Port exposé (Spring écoute sur 8080)
 EXPOSE 8080
 
-# Profil preprod pour Docker (pas preprod ni prod)
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=preprod", "app.jar"]
+# Profil injecté depuis docker-compose via SPRING_PROFILES_ACTIVE
+ENTRYPOINT ["java", "-jar", "app.jar"]

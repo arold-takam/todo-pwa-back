@@ -16,6 +16,20 @@ management:
         health:
                 rabbit:
                         enabled: false
+        endpoints:
+                web:
+                        exposure:
+                                include: health, info, prometheus, metrics
+        endpoint:
+                health:
+                        show-details: always
+        metrics:
+                tags:
+                        application: todo-back
+        prometheus :
+                metrics :
+                        export :
+                                enabled : true
 
 springdoc:
         swagger-ui:
