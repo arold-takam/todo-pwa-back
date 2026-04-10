@@ -1,10 +1,9 @@
-# application-prod.yml
 server:
-        port: ${PORT:8080}  # Render injecte PORT automatiquement
+        port: ${PORT:8080}
 
 spring:
         datasource:
-                url: ${SPRING_DATASOURCE_URL}           # Render injecte ça
+                url: ${SPRING_DATASOURCE_URL}
                 username: ${SPRING_DATASOURCE_USERNAME}
                 password: ${SPRING_DATASOURCE_PASSWORD}
                 driver-class-name: org.postgresql.Driver
@@ -17,14 +16,20 @@ spring:
                 console:
                         enabled: false
 
-# Logging plus léger en prod
 logging:
         level:
                 root: INFO
                 org.springframework: INFO
                 com.app: INFO
 
-# Désactiver Swagger en prod si tu veux
 springdoc:
         swagger-ui:
                 enabled: false
+
+management:
+        tracing:
+                sampling:
+                        probability: 0.1    # 10% en prod pour économiser les ressources
+        otlp:
+                tracing:
+                        endpoint: ${TEMPO_ENDPOINT:http://localhost:4318/v1/traces}
