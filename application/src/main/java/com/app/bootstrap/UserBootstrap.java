@@ -1,7 +1,7 @@
 package com.app.bootstrap;
 
-import com.app.user.api.dto.UserRequestDto;
-import com.app.user.internal.service.UserService;
+import com.app.user.shared.UserSharedService;
+import com.app.user.shared.UserBootstrapPort;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -14,28 +14,22 @@ import org.springframework.stereotype.Component;
 @Profile("!test")
 public class UserBootstrap {
 	private static final Logger log = LoggerFactory.getLogger(UserBootstrap.class);
-	private final UserService userService;
 	
-//	-------------------------------------------------------------------------------------
-@PostConstruct
-public void initDefaultUser() {
-	log.info("=== UserBootstrap démarré ==="); // ← LOG TRÈS VISIBLE pour confirmer exécution
-	String defaultUsername = "defaultuser";
+	// On injecte UNIQUEMENT les interfaces publiques du module user (package shared/)
+	private final UserSharedService userSharedService;
+	private final UserBootstrapPort userBootstrapPort;
 	
-	try {
-		userService.findByUsername(defaultUsername);
-		log.info("Utilisateur par défaut '{}' existe déjà – skip", defaultUsername);
-	} catch (Exception e) {
-		log.info("Création de l'utilisateur par défaut '{}'", defaultUsername);
+	@PostConstruct
+	public void initDefaultUser() {
+		log.info("=== UserBootstrap démarré ===");
+		String defaultUsername = "defaultuser";
 		
-		UserRequestDto dto = new UserRequestDto(
-			defaultUsername,
-			"default@example.com",
-			"default123"
-		);
-		
-		userService.save(dto);
-		log.info("Utilisateur par défaut créé avec succès (ID=1)");
+		if (userSharedService.existsByUsername(defaultUsername)) {
+			log.info("Utilisateur par défaut '{}' existe déjà – skip", defaultUsername);
+		} else {
+			log.info("Création de l'utilisateur par défaut '{}'", defaultUsername);
+			userBootstrapPort.createDefaultUser(defaultUsername, "default@example.com", "default123");
+			log.info("Utilisateur par défaut créé avec succès");
+		}
 	}
-}
 }
