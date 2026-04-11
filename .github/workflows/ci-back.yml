@@ -41,7 +41,12 @@ jobs:
                                   cache: maven
                         
                         - name: Run tests (skip Modulith structure test in CI)
-                          run: mvn test -B -Dtest='!ModulithStructureTests'
+                                # CORRECTION : ajout de failIfNoSpecifiedTests=false
+                                # car certains modules (common) n'ont aucun test — sans ça la CI échoue
+                          run: |
+                                  mvn test -B \
+                                    -Dtest='!ModulithStructureTests' \
+                                    -Dsurefire.failIfNoSpecifiedTests=false
                           env:
                                   SPRING_PROFILES_ACTIVE: dev
                                   SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/todoApp_db
