@@ -39,7 +39,7 @@ jobs:
                                   distribution: 'temurin'
                                   cache: maven
                         
-                        - name: Run tests (skip Modulith structure test)
+                        - name: Run tests
                           run: |
                                   mvn test -B \
                                     -Dtest='!ModulithStructureTests' \
