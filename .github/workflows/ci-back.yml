@@ -1,13 +1,12 @@
-name: CI — Backend
+name: CI — Backend (todo-pwa-back)
 
 on:
         push:
-                branches: [master]
+                branches: [ master ]
         pull_request:
-                branches: [master]
+                branches: [ master ]
 
 jobs:
-        
         test-and-sonar:
                 name: Test & Sonar Analysis
                 runs-on: ubuntu-latest
@@ -40,9 +39,7 @@ jobs:
                                   distribution: 'temurin'
                                   cache: maven
                         
-                        - name: Run tests (skip Modulith structure test in CI)
-                                # CORRECTION : ajout de failIfNoSpecifiedTests=false
-                                # car certains modules (common) n'ont aucun test — sans ça la CI échoue
+                        - name: Run tests (skip Modulith structure test)
                           run: |
                                   mvn test -B \
                                     -Dtest='!ModulithStructureTests' \
