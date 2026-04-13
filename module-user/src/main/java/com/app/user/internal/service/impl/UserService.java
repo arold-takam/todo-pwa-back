@@ -29,6 +29,9 @@ public class UserService implements
 	private final UserMapper userMapper;
 	private final ApplicationEventPublisher eventPublisher;
 	
+	
+	private final String userNotFound = "No user found with id: ";
+	
 	@Override
 	@Transactional
 	public UserResponseDto save(UserRequestDto requestDto) {
@@ -52,7 +55,7 @@ public class UserService implements
 	@Override
 	public UserResponseDto findById(Long id) {
 		UserEntity entity = repository.findById(id)
-			.orElseThrow(() -> new EntityNotFoundException("No user found with id: " + id));
+			.orElseThrow(() -> new EntityNotFoundException(userNotFound + id));
 		return userMapper.toResponse(entity);
 	}
 	
@@ -68,7 +71,7 @@ public class UserService implements
 	@Override
 	public UserResponseDto update(Long id, UserRequestDto requestDto) {
 		UserEntity entity = repository.findById(id)
-			.orElseThrow(() -> new EntityNotFoundException("No user found with id: " + id));
+			.orElseThrow(() -> new EntityNotFoundException(userNotFound + id));
 		entity.setUsername(requestDto.username());
 		entity.setEmail(requestDto.email());
 		entity.setPassword(requestDto.password());
@@ -79,7 +82,7 @@ public class UserService implements
 	@Transactional
 	public boolean delete(Long id) {
 		UserEntity entity = repository.findById(id)
-			.orElseThrow(() -> new EntityNotFoundException("No user found with id: " + id));
+			.orElseThrow(() -> new EntityNotFoundException(userNotFound + id));
 		repository.delete(entity);
 		eventPublisher.publishEvent(new UserDeletedEvent(id));
 		return true;
